@@ -1,0 +1,19 @@
+CYTOSKELAB
+----------
+
+A cellular bio-mechanics computational framework.
+
+
+Prerequisites
+-------------
+
+Boost/Boost build 1.40 and greater (http://www.boost.org)
+Blitz++ 0.9 and greater (http://www.oonumerics.org/blitz/)
+SimTK 2.0 and grater (http://www.simtk.org)
+
+
+Acknowledgment
+--------------
+
+This project was funded by Grant Agency of Charles University in
+Prague under project no. 174310.
