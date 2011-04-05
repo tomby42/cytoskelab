@@ -32,44 +32,44 @@
 namespace cytoskelab {
 
 
-	template<int dim> 
+	template<int dim>
 	CytoskelGroup<dim>::CytoskelGroup() {
 		this->messages = message_queue_ptr_t ( new std::queue< APTR(Message) > );
 		this->cytoskelModels = cytoskel_vect_ptr_t( new std::vector< APTR(CytoskelModel<dim>) > );
 	}
 
-	template<int dim> 
+	template<int dim>
 	CytoskelGroup<dim>::~CytoskelGroup() {
-		
+
 	}
 
 
 
-	template<int dim> 
+	template<int dim>
 	void CytoskelGroup<dim>::processComputeExternalForces() {
-		
+
 		while ( messages->empty() != true &&
 			( messages->front() )->type == Message::M_COMPUTE_EXTERNAL_FORCE ){
-			
+
 			//send message to Eq solver
 			//send(  );
-			
+
 			//
 			std::cout << "compute external forces for particle" << std::endl;
 			//
 
 			messages->pop();
-			
+
 		}
 	}
-    
-    
-	template<int dim> 
+
+
+	template<int dim>
 	void CytoskelGroup<dim>::processComputeNewParticlePositions( ) {
-	
+
 		while ( messages->empty() != true &&
 			( messages->front() )->type == Message::M_COMPUTE_NEW_PARTICLE_POSITION ){
-			
+
 			//send message to Eq solver
 			//send(  );
 			//
@@ -78,14 +78,14 @@ namespace cytoskelab {
 
 
 			messages->pop();
-		
+
 		}
 	}
 
 
-	template<int dim> 
+	template<int dim>
 	void CytoskelGroup<dim>::receive( APTR(Message) message ) {
-		
+
 		switch(message->type){
 			case Message::M_RECOMPUTE_EXTERNAL_FORCES:
 				propagateDown(message);
@@ -101,16 +101,16 @@ namespace cytoskelab {
 				break;
 			case Message::M_COMPUTE_NEW_PARTICLE_POSITION:
 				messages->push(message);
-				break;	
-		
-		}	
-	}
-    
+				break;
 
-    template<int dim> 
+		}
+	}
+
+
+    template<int dim>
 	void CytoskelGroup<dim>::send( APTR (CytoskelModel<dim>) to, APTR (Message) message ) {
 		to->receive(message);
-	
+
 	}
 
 
@@ -119,33 +119,30 @@ namespace cytoskelab {
 		cytoskelModels->push_back( ctsklModel );
 	}
 
-    
+
     template<int dim>
 	void CytoskelGroup<dim>::recomputeParticlePositions( double step, Message::time_stamp_t tm ) {
-		std::vector< APTR( CytoskelModel<dim> ) >::iterator = 
+		typename std::vector< APTR( CytoskelModel<dim> ) >::iterator p =
 			cytoskelModels->begin();
 
-		APTR(Message) message( new MRecomputeParticlePositions<dim>() );
-
-		message->step = step;
-		message->timeStamp = tm;
+		APTR(Message) message( new MRecomputeParticlePositions<dim>(tm, step) );
 
 		while (p != cytoskelModels->end() ){
 			send(p, message );
-			++p;	
+			++p;
 		}
-	
+
 	}
 
-	
+
 	template<int dim>
 	void CytoskelGroup<dim>::propagateDown( APTR( Message ) message ) {
-		std::vector< APTR( CytoskelModel<dim> ) >::iterator p = 
+		typename std::vector< APTR( CytoskelModel<dim> ) >::iterator p =
 			cytoskelModels->begin();
 
 		while (p != cytoskelModels->end() ){
 			send( *p, message );
-			++p;	
+			++p;
 		}
 	}
 
@@ -153,14 +150,15 @@ namespace cytoskelab {
 	template<int dim>
 	void CytoskelGroup<dim>::test(){
 		std::cout << cytoskelModels->size() << std::endl;
-	
+
 	}
 
+	/*
 	template<int dim>
 	CytoskelRepr<dim> CytoskelGroup<dim>::output(){
 		CytoskelRepr<dim> ret;
-		
-		std::vector< APTR(CytoskelModel<dim>) >::iterator c_it=
+
+		typename std::vector< APTR(CytoskelModel<dim>) >::iterator c_it=
 		cytoskelModels->begin();
 
 		while( c_it != cytoskelModels->end() ){
@@ -169,18 +167,18 @@ namespace cytoskelab {
 		}
 
 		return ret;
-	}
+	}*/
 
     template<int dim>
 	void CytoskelGroup<dim>::setEqSolver() {
-		std::vector< APTR( CytoskelModel<dim> ) >::iterator p = 
+		typename std::vector< APTR( CytoskelModel<dim> ) >::iterator p =
 			cytoskelModels->begin();
 
 		while (p != cytoskelModels->end() ){
 			p->setEqSolver();
-			++p;	
+			++p;
 		}
-	
+
 	}
 
 };

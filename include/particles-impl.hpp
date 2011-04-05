@@ -28,18 +28,18 @@ namespace cytoskelab {
 
   template<int dim>
   Particle<dim>::Particle ()
-    : id (-1), ctsklId (-1), x (0.), v (0.), type(INNER), 
+    : id (-1), ctsklId (-1), x (0.), v (0.), type(INNER),
 	internalF(0.), externalF (0.)
   {}
 
   template<int dim>
-  Particle<dim>::Particle 
-  ( typename Particle<dim>::vec_t& _x, 
-	int _id, 
-	int _ctsklId, 
-	typename Particle<dim>::particle_type_t t 
+  Particle<dim>::Particle
+  ( typename Particle<dim>::vec_t& _x,
+	int _id,
+	int _ctsklId,
+	typename Particle<dim>::particle_type_t t
   )
-  : id (_id), ctsklId (_ctsklId), x (_x), v (0.), type(t), 
+  : id (_id), ctsklId (_ctsklId), x (_x), v (0.), type(t),
     internalF(0.), externalF (0.)
   {}
 
@@ -82,13 +82,13 @@ namespace cytoskelab {
 	return type;
   }
 
-  
+
   template<int dim>
   typename Particle<dim>::vec_t&
   Particle<dim>::getV ()// const
   { return v; }
 
-  
+
   template<int dim>
   typename Particle<dim>::vec_t&
   Particle<dim>::getExtF ()// const
@@ -96,25 +96,25 @@ namespace cytoskelab {
 
 
   template<int dim>
-  void Particle<dim>::addInternalForce( typename Particle<dim>::vec_t & f ) {
+  void Particle<dim>::addInternalForce( typename Particle<dim>::vec_t f ) {
 	  this->internalF += f;
   }
 
 
 
   template<int dim>
-  void Particle<dim>::addExternalForce( typename Particle<dim>::vec_t & f ) {
+  void Particle<dim>::addExternalForce( typename Particle<dim>::vec_t f ) {
 	  this->externalF += f;
   }
 
 
   template<int dim>
   void Particle<dim>::computeNewPosition( APTR( EqSolver) eqs ) {
-	
+
     // TODO !!!!!!!
-	//here it should be connection with 
+	//here it should be connection with
     //instance of equation for this particle
-    //ad using this equation we should be able to 
+    //ad using this equation we should be able to
 	//compute new position of particle
 
   }

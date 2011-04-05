@@ -27,7 +27,7 @@
 namespace cytoskelab {
 
 
-	template<int dim> 
+	template<int dim>
 	CytoskelModel<dim>::CytoskelModel() {
 		this->cellId = -1;
 		this->particles = particle_vect_ptr_t ( new std::vector< APTR( Particle<dim> ) >() );
@@ -35,12 +35,12 @@ namespace cytoskelab {
 	}
 
 
-    template<int dim> 
-	CytoskelModel<dim>::CytoskelModel( 
-		int cellId, 
-		std::string comment, 
+    template<int dim>
+	CytoskelModel<dim>::CytoskelModel(
+		int cellId,
+		std::string comment,
 		APTR(CytoskelGroup<dim>) ctsklGroup ) {
-		
+
 		this->cellId = cellId;
 		this->comment = comment;
 		this->cytoskelGroup = ctsklGroup;
@@ -50,24 +50,24 @@ namespace cytoskelab {
 	}
 
 
-	template<int dim> 
+	template<int dim>
 	CytoskelModel<dim>::~CytoskelModel() {
-	
+
 	};
 
 
 	template<int dim>
 	void CytoskelModel<dim>::send( APTR(Message) message ) {
-		cytoskelSolver->receive( message);	
+		cytoskelGroup->receive( message);
 	}
 
 
 	template<int dim>
 	void CytoskelModel<dim>::receive( APTR(Message) message ) {
-		
+
 		Message::time_stamp_t tm = message->time_stamp;
 		double step = 0;
-		
+
 		switch( message->type ){
 			case Message::M_RECOMPUTE_EXTERNAL_FORCES:
 				step = message->getStep();
@@ -83,8 +83,8 @@ namespace cytoskelab {
 				step = message->getStep();
 				this->recomputeParticlePositions(step, tm);
 				break;
-		
-		} 
+
+		}
 	}
 
 
@@ -92,13 +92,13 @@ namespace cytoskelab {
 	void CytoskelModel<dim>::addParticle( APTR(Particle<dim>) particle ) {
 		this->particles->push_back( particle );
 	}
-    
+
 
     template<int dim>
 	bool CytoskelModel<dim>::stepIsOk( double step ) {
 		return ( step > 0 && step < 1 );
 	}
-    
+
 
     template<int dim>
 	bool CytoskelModel<dim>::isInnerParticle( APTR(Particle<dim>) particle ) {
@@ -119,9 +119,9 @@ namespace cytoskelab {
 	}
 
 	template<int dim>
-	void CytoskelModel<dim>::setCytoskelGroup( 
+	void CytoskelModel<dim>::setCytoskelGroup(
 		APTR(CytoskelGroup<dim>) ctsklGroup ) {
-	
+
 		this->cytoskelGroup = ctsklGroup;
 
 	}
@@ -135,17 +135,17 @@ namespace cytoskelab {
 
 	template<int dim>
 	void CytoskelModel<dim>::recomputeInternalForces() {
-		vector< APTR(Forceon<dim>) >::iterator p =
+	  typename std::vector< APTR(Forceon<dim>) >::iterator p =
 		this->forceons->begin();
 
 		while( p != this->forceons->end() ) {
-			
-			//force from every forceon is spread to 
+
+			//force from every forceon is spread to
 			//both endings (start and end)
 			p->spreadIntForce();
 
 			++p;
-		} 
+		}
 	}
 
 
@@ -154,14 +154,14 @@ namespace cytoskelab {
 		//nothing happens
 		//no external forces inside cell
 	}
-    
+
 
 
 
 
     template<int dim>
 	void CytoskelModel<dim>::recomputeParticlePositions( double step, Message::time_stamp_t tm ) {
-		vector< APTR(Particle<dim>) >::iterator p =
+      typename std::vector< APTR(Particle<dim>) >::iterator p =
 		this->particles->begin();
 
 		//method computeNewPosition() of all particles is called
@@ -170,9 +170,9 @@ namespace cytoskelab {
 		while( p != this->particles->end() ) {
 			p->computeNewPosition( eqSolver );
 			++p;
-		} 
+		}
 	}
-    
+
 
     template<int dim>
 	void CytoskelModel<dim>::updateParticlePosition( APTR(Message) message ){
@@ -180,7 +180,7 @@ namespace cytoskelab {
 		//message->particle->setPosition( newPosition );
 
 	}
-	
+
 
     template<int dim>
 	void CytoskelModel<dim>::updateParticleExtForce( APTR(Message) message ){
@@ -188,15 +188,15 @@ namespace cytoskelab {
 		//message->particle->setExternalForce( newExtF );
 	}
 
-
+	/*
 	template<int dim>
 	CytoskelRepr<dim> CytoskelModel<dim>::output() {
 		CytoskelRepr<dim> ret;
-		
+
 		//output particles
-		std::vector< APTR(Particle<dim>) >::iterator p_it =
+		typename std::vector< APTR(Particle<dim>) >::iterator p_it =
 		particles->begin();
-		
+
 		while( p_it != particles->end() ){
 			ret.add( ParticleRepr<dim>( (*p_it)->getCytoskelId(), (*p_it)->getId(), (*p_it)->getX() ) );
 
@@ -204,7 +204,7 @@ namespace cytoskelab {
 		}
 
 		//output forceons
-		std::vector< APTR(Forceon<dim>) >::iterator v_it =
+		typename std::vector< APTR(Forceon<dim>) >::iterator v_it =
 			forceons->begin();
 
 		while (v_it != forceons->end() ){
@@ -214,7 +214,7 @@ namespace cytoskelab {
 		}
 
 		return ret;
-	}
+	}*/
 
 };
 

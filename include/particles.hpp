@@ -27,11 +27,11 @@
 
 namespace cytoskelab {
 
-class EqSolver;	
-	
-	
+class EqSolver;
+
+
 /**
- * class Particle 
+ * class Particle
  * defines membrane or inner helping particle of cell
  * cell mass is divided between its particles
  * particles are bases for voigt elements
@@ -46,16 +46,16 @@ class EqSolver;
 //-----------------------------------------------------------
 //TODO make different objects for membrane and inner particle?
 //-----------------------------------------------------------
-  
+
   template<int dim>
   class Particle : public Atom {
     DEF_ATOM (Particle<dim>);
 
   public:
     typedef blitz::TinyVector<double, dim> vec_t;
-	
-	typedef enum particle_type{ 
-		MEMBRANE, 
+
+	typedef enum particle_type{
+		MEMBRANE,
 		INNER,
 		OUTER
 	} particle_type_t;
@@ -64,7 +64,7 @@ class EqSolver;
 
     BOOST_SERIALIZE_BEGIN;
 		BOOST_SERIALIZE_BASE(Atom);
-        
+
 		BOOST_SERIALIZE(id);
         BOOST_SERIALIZE(ctsklId);
 		BOOST_SERIALIZE(x);
@@ -76,18 +76,18 @@ class EqSolver;
 
     /** unique id within one cell */
     int id;
-    
+
     /** id of cell in which particle is located */
     int ctsklId;
-    
+
     /** coordinates of particle in dim space */
     vec_t x;
-    
+
     /** velocity */
     vec_t v;
-    
-    /** 
-     * external force vector applied to particle 
+
+    /**
+     * external force vector applied to particle
      * defautl is zero
      */
     vec_t externalF;
@@ -98,17 +98,17 @@ class EqSolver;
 	vec_t internalF;
 
 	particle_type_t type;
-    
+
     //-------------------------------------------------
     // TODO: something representing cell mass and substances
     //-------------------------------------------------
-    
-    
+
+
   public:
 
     /** constructor */
     Particle();
-    
+
     /**
      * parametrized constructor
      * @param coordinates
@@ -117,26 +117,26 @@ class EqSolver;
 	 * @param t particle type(MEMBRANE/INNER)
      */
     Particle(vec_t& _x, int id, int cellId, particle_type_t t );
-    
+
     /** destructor */
     virtual ~Particle();
-  
+
     /** set new position of particle */
     void setX(vec_t& _x);
-    
+
     /** set new velocity */
     void setV(vec_t& _v);
-    
+
     /** set external forces */
     void setExtF(vec_t& _f);
 
 
 
 	/** adds new component of internal force  */
-	void addInternalForce( vec_t & f );
+	void addInternalForce( vec_t f );
 
 	/** adds new component of external force */
-	void addExternalForce( vec_t & f );
+	void addExternalForce( vec_t f );
 
 
 
@@ -147,24 +147,24 @@ class EqSolver;
 
     /** return id of particle */
     int getId();
-    
+
     /** return id of cell in which particle is located */
     int getCytoskelId();
 
 	/** return true if particle is located on membrane */
 	particle_type_t getType();
-  
+
     /** get position */
     vec_t& getX(); // const;
-    
+
     /** get velocity vector */
     vec_t& getV(); // const;
-    
+
     /** get x external force vector */
     vec_t& getExtF(); // const;
 
   };
-  
+
 };
 
 #endif // __CYTOSKELAB_PARTICLES__

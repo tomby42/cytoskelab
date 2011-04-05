@@ -31,8 +31,8 @@ namespace cytoskelab {
   {}
 
   template<int dim>
-  Voigt<dim>::Voigt 
-  (APTR(Particle<dim>) _start, 
+  Voigt<dim>::Voigt
+  (APTR(Particle<dim>) _start,
    APTR(Particle<dim>) _end,
    double _springConst,
    double _restLength,
@@ -48,8 +48,8 @@ namespace cytoskelab {
 
   template<int dim>
   typename Voigt<dim>::vec_t
-  Voigt<dim>::force (APTR (Particle<dim>) p) 
-  { 
+  Voigt<dim>::force (APTR (Particle<dim>) p)
+  {
 	  APTR(Particle<dim>) x1;
 	  APTR(Particle<dim>) x2;
 
@@ -57,7 +57,7 @@ namespace cytoskelab {
 	  if( p != start && p != end ){
 		return vec_t(0.);
 	  }
-	  
+
 	  //force on starting particle
 	  if( p == start ) {
 		x1 = start;
@@ -72,7 +72,7 @@ namespace cytoskelab {
 
 	  /**********************************************************
 	  * according to formula:
-	  *                          
+	  *
 	  *                           (length of voigt) - restLength
 	  * F(x1,x2) = springConst * ------------------------------- *
 	  *                              (length of voigt)
@@ -87,8 +87,8 @@ namespace cytoskelab {
 
 	  double len = this->getLength();
 	  vec_t F = springConst * (len - restLength) / len * (x1->getX() - x2->getX() );
-	  F = F + viscosityConst * (x1->getV() - x2->getV() ); 
-		  
+	  F = F + viscosityConst * (x1->getV() - x2->getV() );
+
 	  return F;
   }
 
@@ -96,7 +96,7 @@ namespace cytoskelab {
   template<int dim>
   typename Voigt<dim>::voigt_type_t
   Voigt<dim>::getType() {
-	return type;  
+	return type;
   }
 
 
@@ -122,7 +122,7 @@ namespace cytoskelab {
 
   template<int dim>
   double Voigt<dim>::getViscosityConst() {
-	  return this->viscosityConst; 
+	  return this->viscosityConst;
   }
 
   template<int dim>
@@ -144,7 +144,7 @@ namespace cytoskelab {
   void Voigt<dim>::spreadIntForce(){
 	  start->addInternalForce( force(start) );
 	  end->addInternalForce( force(end) );
-  
+
   }
 
 
@@ -152,7 +152,7 @@ namespace cytoskelab {
   void Voigt<dim>::spreadExtForce(){
 	  start->addExternalForce( force(start) );
 	  end->addExternalForce( force(end) );
-  
+
   }
 
 

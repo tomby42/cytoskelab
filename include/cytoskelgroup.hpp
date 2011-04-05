@@ -128,7 +128,7 @@ namespace cytoskelab {
 	 * vertices are particles
 	 * edges are voigths elements
 	 */
-	CytoskelRepr<dim> output();
+	//CytoskelRepr<dim> output();
 
 	/** sets equation solver to all cytoskelmodels in group */
 	void setEqSolver();

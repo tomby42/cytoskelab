@@ -94,7 +94,7 @@ namespace cytoskelab {
 
 	template<int dim>
 	void CytoskelRepr<dim>::add( ParticleRepr<dim> p ) {
-		std::vector< ParticleRepr<dim > >::iterator it =
+		typename std::vector< ParticleRepr<dim > >::iterator it =
 			particlesRepr->begin();
 
 		while( it != particlesRepr->end() ){
@@ -109,7 +109,7 @@ namespace cytoskelab {
 
 	template<int dim>
 	void CytoskelRepr<dim>::add( ForceonRepr<dim> v) {
-		std::vector< ForceonRepr<dim > >::iterator it =
+		typename std::vector< ForceonRepr<dim > >::iterator it =
 			forceonsRepr->begin();
 
 		while( it != forceonsRepr->end() ){
@@ -126,7 +126,7 @@ namespace cytoskelab {
 	void CytoskelRepr<dim>::join( CytoskelRepr<dim> & ctskl) {
 		
 		//joining new voigts
-		std::vector< ForceonRepr<dim> >::iterator v_it = 
+		typename std::vector< ForceonRepr<dim> >::iterator v_it = 
 			ctskl.forceonsRepr->begin();
 
 		while( v_it != ctskl.forceonsRepr->end() ){
@@ -135,7 +135,7 @@ namespace cytoskelab {
 		}
 
 		//joining new particles
-		std::vector< ParticleRepr<dim> >::iterator p_it = 
+		typename std::vector< ParticleRepr<dim> >::iterator p_it = 
 			ctskl.particlesRepr->begin();
 
 		while( p_it != ctskl.particlesRepr->end() ){
@@ -148,7 +148,7 @@ namespace cytoskelab {
 	template<int dim>
 	void CytoskelRepr<dim>::print(){
 		//joining new particles
-		std::vector< ParticleRepr<dim> >::iterator p_it = 
+		typename std::vector< ParticleRepr<dim> >::iterator p_it = 
 			particlesRepr->begin();
 
 		while( p_it != particlesRepr->end() ){
@@ -157,7 +157,7 @@ namespace cytoskelab {
 		}
 		std::cout<< std::endl<< std::endl;
 
-		std::vector< ForceonRepr<dim> >::iterator f_it = 
+		typename std::vector< ForceonRepr<dim> >::iterator f_it = 
 			forceonsRepr->begin();
 
 		while( f_it != forceonsRepr->end() ){

@@ -143,7 +143,7 @@ test2() {
 	PASS(test2);
 
 }
-
+/*
 static void 
 test3(){
 	typedef blitz::TinyVector<double, 2> vec_t;
@@ -183,7 +183,7 @@ test4(){
 
 	PASS(test4);
 }
-
+*/
 
 
 int main (int argc, char** argv)
@@ -195,7 +195,7 @@ int main (int argc, char** argv)
   //test1 ();
   //test2 ();
   //test3();
-  test4();
+//  test4();
 
   std::cout << "...BOOT SUCCESFULL\n";
 
