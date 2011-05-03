@@ -1,0 +1,40 @@
+# Copyright (C) 2010  Tomas 'tomby' Bily
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+project cytoskelab
+    : requirements 
+    <include>include
+    <include>"${SimTK_INSTALL_DIR}/include"
+    <linkflags>"-L${SimTK_INSTALL_DIR}/lib64 -lSimTKsimbody_d -lpthread -lm -lSimTKsimbody_aux_d -lSimTKsimbody_d -lSimTKmath_d -lSimTKcpodes_d -lSimTKcommon_d -lSimTKlapack -lvtkCommon -lvtkHybrid -lvtkGenericFiltering -lvtkVolumeRendering -lvtksys -lvtkFiltering -lvtkRendering -lvtkIO -lvtkGraphics -lvtkexoIIc -lvtkNetCDF -lvtkImaging -lvtkftgl -lvtkfreetype -lvtkDICOMParser -lvtkpng -lvtktiff -lvtkzlib -lvtkjpeg -lvtkexpat"
+    ;
+
+lib blitzlib
+    : : <name>blitz ;
+
+lib SimTKsimbody
+    : : 
+    <name>SimTKsimbody <search>"$(SimTK_INSTALL_DIR)/lib64"
+    ;
+
+lib cytoskelab
+    : [ glob src/*.cpp : src/main.cpp ] blitzlib
+    : <variant>debug:<define>BZ_DEBUG
+    ;
+
+exe main 
+    : src/main.cpp cytoskelab blitzlib 
+    : <variant>debug:<define>BZ_DEBUG
+    ;

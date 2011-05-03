@@ -51,15 +51,18 @@ protected:							\
 #define APTR(TYPE) typename TYPE::Ptr
 #endif
 
-#define GETTRN(NAME) Get ## NAME 
-#define SETTRN(NAME) Set ## NAME
+#define GETTRN(NAME) get_ ## NAME 
+#define SETTRN(NAME) set_ ## NAME
 
-#define DEF_TTR(TYPE, NAME)			\
-  void SETTRN (NAME) (TYPE & _) { NAME = _; }	\
-  TYPE const & GETTRN (NAME) () { return NAME; } 
+#define DEF_TTR(TYPE, NAME)				\
+  inline void SETTRN (NAME) (TYPE _) { NAME = _; }	\
+  inline TYPE const & GETTRN (NAME) () { return NAME; } 
 
-#define GETTR(INSTANCE, NAME) INSTANCE->GETTRN(NAME) ()
-#define SETTR(INSTANCE, NAME, VAL) INSTANCE->SETTRN(NAME) (VAL)
+#define GETTR(INSTANCE, NAME) (INSTANCE)->GETTRN(NAME) ()
+#define SETTR(INSTANCE, NAME, VAL) (INSTANCE)->SETTRN(NAME) (VAL)
+#define GETTr(INSTANCE, NAME) (INSTANCE).GETTRN(NAME) ()
+#define SETTr(INSTANCE, NAME, VAL) (INSTANCE).SETTRN(NAME) (VAL)
+
 
   /**
    * Declaration of class Atom
